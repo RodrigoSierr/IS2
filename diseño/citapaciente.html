@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style1.css">
     <script src="script.js"></script>
+    <style>
+        #resultadoPaciente {
+            font-size: 24px; /* Cambia esto al tamaño que prefieras */
+            font-weight: bold; /* Opcional, para hacer el texto más grueso */
+            color: #333; /* Opcional, para cambiar el color del texto */
+        }
+    </style>
 </head>
 <body>   
 <header>
@@ -79,86 +86,117 @@
                         <li><a href="#" id="selected"></a></li>
                         <li><a href="#">Paciente</a>
                             <ul>
-                                <li><a href="perfilpaciente.html">Perfil</a></li>
-                                <li><a href="historialpaciente.html">Historial Medico</a></li>
-                                <li><a href="citapaciente.html">Cita</a></li>
+                                <li><a href="registro_paciente.html">Registro de Paciente</a></li>
+                                <li><a href="historial_medico.html">Historial Medico</a></li>
+                                <li><a href="citapaciente.html">Reservar Cita</a></li>
                                 <li><a href="consultapaciente.html">Consulta</a></li>
                                 <li><a href="recetapaciente.html">Receta</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Medico</a>
                             <ul>
+                                <li><a href="registro_doctor.html">Registro de Doctor</a></li>
                                 <li><a href="perfildoctor.html">Perfil</a></li>
                                 <li><a href="consultadoctor.html">Consulta</a></li>
-                                <li><a href="citadoctor.html">Cita</a></li>
+                                
                             </ul>
                         </li>
-                        <li><a href="#">Medicamentos</a></li>
-                        <li><a href="#">Ofertas</a></li>
-                        <li><a href="#">Contactos</a></li>
+                        <li><a href="farmacia.html">Farmacia</a>
+                        <li><a href="horario.html">Horario</a>    
+                        
                     </ul>
                 </nav>
             </div>
         </div>
     </header>  
-<form id="formulario" action= "php/citapaciente.php" onsubmit="return validarCampos();">
-    <h1>Informacion de la Cita</h1>   
-    <label for="nombre">Id Cita:</label>
-    <input type="text" id="idc" name="idc" required><br><br>
-
-    <label for="fecha">Fecha de la Cita:</label>
-    <input type="date" id="fecha" name="fecha" required><br><br>
-
-    <label for="inicio">Hora de la cita:</label>
-    <input type="time" id="hora" name="hora" required><br><br>
-
-    <label for="inicio">Duración de la cita</label>
-    <input type="time" id="duracion" name="duracion" required><br><br>   
-
-    <label for="perfil">Motivo de la cita:</label>
-    <textarea id="motivo" name="motivo" cols="50" rows="5" required></textarea><br><br>
-
-    <h1>Informacion del Paciente</h1> 
-    <label for="nombre">Nombre Completo:</label>
-    <input type="text" id="nombre" name="nombre" required><br><br>
+<form id="formulario" action= "citapaciente.php" onsubmit="return validarCampos();">
+    <h1><strong>Información de la Cita</strong></h1><br>   
         
-    <label for="nombre">ID Paciente:</label>
-    <input type="text" id="idp" name="idp" required><br><br>
-
-    <label for="contacto">Teléfono:</label>
-    <input type="text" id="contacto" name="contacto" required><br><br>
+        <label for="idp">ID Paciente:(DNI)</label>
+        <input type="text" id="idp" name="idp" required><br><br>
+        <button type="button" onclick="buscarPacientePorID()">Buscar</button>
+        <div id="resultadoPaciente"></div><br>
     
-    <label for="correo">Correo:</label>
-    <input type="email" id="correo" name="correo" required><br><br>
+        <label for="especialidad">Especialidad:</label>
+        <select id="especialidad" name="especialidad" onchange="buscarDoctoresPorEspecialidad()" required>
+            <option value="Cardiología">Cardiología</option>
+            <option value="Dermatología">Dermatología</option>
+            <option value="Pediatría">Pediatría</option>
+            <option value="Oftalmología">Oftalmología</option>
+            <option value="Neurología">Neurología</option>
+            <option value="Ginecología">Ginecología</option>
+            <option value="Psiquiatría">Psiquiatría</option>
+            <option value="Ortopedia">Ortopedia</option>
+            <option value="Radiología">Radiología</option>
+            <option value="Oncología">Oncología</option>
+            <option value="Urología">Urología</option>
+            <option value="Endocrinología">Endocrinología</option>
+            <option value="Neumología">Neumología</option>
+        </select><br><br>
 
-    <label for="fecha">Fecha de Nacimiento:</label>
-    <input type="date" id="fecha" name="fecha" required><br><br>
+        <div id="resultadoDoctores"></div><br>
 
-    <label for="sexo">Género:</label>
-    <select id="sexo" name="sexo" required>
-        <option value="" disabled selected>Seleccione una opción</option>
-        <option value="femenino">Femenino</option>
-        <option value="masculino">Masculino</option>
-    </select><br><br>
+        <label for="doctor_seleccionado">Seleccionar Doctor:</label>
+        <select id="doctor_seleccionado" name="doctor_seleccionado" required>
+            <!-- Opciones de doctores se añadirán dinámicamente aquí -->
+        </select><br><br>
 
-    <h1>Informacion del Médico</h1> 
-    <label for="nombre">Nombre Completo:</label>
-    <input type="text" id="nombre" name="nombre" required><br><br>
+        <label for="fecha_cita">Fecha de la Cita:</label>
+        <input type="date" id="fecha_cita" name="fecha_cita" required><br><br>
 
-    <label for="nombre">ID Médico:</label>
-    <input type="text" id="idm" name="idm" required><br><br>
+        <label for="hora_inicio_cita">Hora de Inicio de la Cita:</label>
+        <input type="time" id="hora_inicio_cita" name="hora_inicio_cita" required><br><br>
 
-    <label for="nombre">Especialidad:</label>
-    <input type="text" id="especialidad" name="especialidad" required><br><br>
+        <label for="hora_fin_cita">Hora de Fin de la Cita:</label>
+        <input type="time" id="hora_fin_cita" name="hora_fin_cita" required><br><br>
 
-    <label for="contacto">Teléfono:</label>
-    <input type="text" id="contacto" name="contacto" required><br><br>
-
-    <label for="correo">Correo:</label>
-    <input type="email" id="correo" name="correo" required><br><br>
-
-    <button type="submit">Enviar</button>
-<div id="datosMostrados"></div>
-</form>
+        <button type="submit">Enviar</button>
+        <div id="datosMostrados"></div>
+    </form>
+    <script>
+        function buscarPacientePorID() {
+            const idPaciente = document.getElementById('idp').value;
+            
+            fetch(`buscarPaciente.php?idp=${idPaciente}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('resultadoPaciente').innerHTML = 'Paciente no encontrado';
+                } else {
+                    // Mostrar nombre y apellido en líneas separadas
+                    document.getElementById('resultadoPaciente').innerHTML = `
+                        <p>Nombre: ${data.nombre}</p>
+                        <p>Apellido: ${data.apellido1} ${data.apellido2}</p>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error al buscar el paciente:', error);
+                document.getElementById('resultadoPaciente').innerHTML = 'Error al buscar el paciente';
+            });
+        }
+        function buscarDoctoresPorEspecialidad() {
+            const especialidad = document.getElementById('especialidad').value;
+            
+            fetch(`buscarDoctores.php?especialidad=${especialidad}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('resultadoDoctores').innerHTML = '<p>No hay doctores disponibles en esta especialidad</p>';
+                } else {
+                    let listaDoctores = '<h3>Doctores disponibles:</h3><ul>';
+                    data.forEach(doctor => {
+                        listaDoctores += `<li>${doctor.Nombre} ${doctor.Apellido1} ${doctor.Apellido2}</li>`;
+                    });
+                    listaDoctores += '</ul>';
+                    document.getElementById('resultadoDoctores').innerHTML = listaDoctores;
+                }
+            })
+            .catch(error => {
+                console.error('Error al buscar los doctores:', error);
+                document.getElementById('resultadoDoctores').innerHTML = '<p>Error al buscar los doctores</p>';
+            });
+        }
+    </script>
 </body>
 </html>

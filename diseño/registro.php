@@ -3,9 +3,9 @@ $servername = "localhost"; // Cambia esto si tu servidor no es local
 $username = "tu_usuario"; // Reemplaza con tu nombre de usuario de MySQL
 $password = "tu_contraseña"; // Reemplaza con tu contraseña de MySQL
 $dbname = "farmacia"; // Nombre de tu base de datos
+$puerto=3310;
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname,3310);
 
 // Verificar conexión
 if ($conn->connect_error) {

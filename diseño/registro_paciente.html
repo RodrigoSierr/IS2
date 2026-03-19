@@ -79,68 +79,88 @@
                         <li><a href="#" id="selected"></a></li>
                         <li><a href="#">Paciente</a>
                             <ul>
-                                <li><a href="perfilpaciente.html">Perfil</a></li>
-                                <li><a href="historialpaciente.html">Historial Medico</a></li>
-                                <li><a href="citapaciente.html">Cita</a></li>
+                                <li><a href="registro_paciente.html">Registro de Paciente</a></li>
+                                <li><a href="historial_medico.html">Historial Medico</a></li>
+                                <li><a href="citapaciente.html">Reservar Cita</a></li>
                                 <li><a href="consultapaciente.html">Consulta</a></li>
                                 <li><a href="recetapaciente.html">Receta</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Medico</a>
                             <ul>
+                                <li><a href="registro_doctor.html">Registro de Doctor</a></li>
                                 <li><a href="perfildoctor.html">Perfil</a></li>
                                 <li><a href="consultadoctor.html">Consulta</a></li>
-                                <li><a href="citadoctor.html">Cita</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Medicamentos</a></li>
-                        <li><a href="#">Ofertas</a></li>
-                        <li><a href="#">Contactos</a></li>
+                        <li><a href="farmacia.html">Farmacia</a>
+                        <li><a href="horario.html">Horario</a> 
                     </ul>
                 </nav>
             </div>
         </div>
     </header>  
 
-    <form id="formulario" action= "php/datos_personales_paciente.php" method="post" onsubmit="return validarCampos();"> //Se agrego el metodo para que el formulario almacene en datos_personales_paciente.php o/
-        <h1>Datos Personales</h1>
+    <form id="formulario" action="registro_paciente.php" method="post" onsubmit="return validarCampos();">
+        <h1>Registro de Datos Personales del Paciente</h1>
+        
         <label for="nombre">Nombres:</label>
         <input type="text" id="nombre" name="nombre" required><br><br>
-
-        <label for="nombre">Apellido Paterno:</label>
+    
+        <label for="apellido1">Apellido Paterno:</label>
         <input type="text" id="apellido1" name="apellido1" required><br><br>
-
-        <label for="nombre">Apellido Materno:</label>
+    
+        <label for="apellido2">Apellido Materno:</label>
         <input type="text" id="apellido2" name="apellido2" required><br><br>
-
-        <label for="nombre">DNI:</label>
+    
+        <label for="codigo">DNI:</label>
         <input type="text" id="codigo" name="codigo" required><br><br>
-
+    
         <label for="fecha">Fecha de Nacimiento:</label>
         <input type="date" id="fecha" name="fecha" required><br><br>
-
+        
+        <input type="hidden" id="edad" name="edad">
+    
         <label for="sexo">Género:</label>
         <select id="sexo" name="sexo" required>
             <option value="" disabled selected>Seleccione una opción</option>
-            <option value="femenino">Femenino</option>
             <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="otro">Otro</option>
         </select><br><br>
-
-        <label for="contacto">Direccion:</label>
+    
+        <label for="direccion">Direccion:</label>
         <input type="text" id="direccion" name="direccion" required><br><br>
-
+    
         <label for="contacto">Teléfono:</label>
         <input type="text" id="contacto" name="contacto" required><br><br>
-
+    
         <label for="correo">Correo:</label>
         <input type="email" id="correo" name="correo" required><br><br>
     
         <button type="submit">Enviar</button>
-
-        <div id="datosMostrados"></div>
     </form>
     <div id="datosMostrados"></div>
 </body>
+    <script>
+        // Función para calcular la edad
+        function calcularEdad(fechaNacimiento) {
+            const fechaNac = new Date(fechaNacimiento);
+            const fechaActual = new Date();
+            let edad = fechaActual.getFullYear() - fechaNac.getFullYear();
+            const diferenciaMeses = fechaActual.getMonth() - fechaNac.getMonth();
+            if (diferenciaMeses < 0 || (diferenciaMeses === 0 && fechaActual.getDate() < fechaNac.getDate())) {
+                edad--;
+            }
+            return edad;
+        }
+        
+        // Event listener para el campo de fecha de nacimiento
+        document.getElementById('fecha').addEventListener('change', function() {
+            const edadCalculada = calcularEdad(this.value);
+            document.getElementById('edad').value = edadCalculada; // Actualiza el campo oculto con la edad calculada
+        });
+    </script>
 </html>
 
         

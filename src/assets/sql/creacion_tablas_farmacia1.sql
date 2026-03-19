@@ -1,3 +1,5 @@
+CREATE DATABASE farmacia;
+
 USE farmacia;
 CREATE TABLE Departamento
 (
@@ -9,6 +11,7 @@ CREATE TABLE Departamento
 
 CREATE TABLE Doctor (
     ID_Doctor INTEGER PRIMARY KEY,
+    Nombre_doctor VARCHAR(255) ,
     Primer_apellido_doctor VARCHAR(255) ,
     Segundo_apellido_doctor VARCHAR(255) ,
     Especialidad VARCHAR(255) ,
@@ -22,15 +25,17 @@ CREATE TABLE Paciente (
     Nombre_paciente VARCHAR(255) ,
     Primer_apellido_paciente VARCHAR(255) ,
     Segundo_apellido_paciente VARCHAR(255) ,
+    Genero_paciente ENUM('Masculino','Femenino','Otro'),
     Edad_paciente INTEGER DEFAULT NULL,
     Fecha_nacimiento_paciente DATE ,
+    Correo_paciente VARCHAR(255) ,
     Dirección_paciente VARCHAR(255) ,
     Historial_médico MEDIUMTEXT ,
     ID_Departamento INTEGER 
 );
 
 CREATE TABLE Telefono_Paciente(
-	ID_Paciente INTEGER,
+	  ID_Paciente INTEGER,
     telefono_paciente INTEGER,
     PRIMARY KEY(ID_Paciente,telefono_paciente)
 );
@@ -140,8 +145,8 @@ CREATE TABLE usuario(
     Nombre_usuario VARCHAR(255),
     Apelido_usuario VARCHAR(255),
     Correo_usuario VARCHAR(255) NOT NULL UNIQUE,
-    Contraseña_usuario VARCHAR(255)
-    ID_Rol INTEGER
+    Contraseña_usuario VARCHAR(255),
+    ID_rol INTEGER
 );
 
 CREATE TABLE rol(
@@ -149,6 +154,32 @@ CREATE TABLE rol(
     Nombre_rol ENUM('Administrador','Doctor','Personal','Cliente')
 );
 
+ALTER TABLE doctor ADD FOREIGN KEY (ID_Departamento) REFERENCES departamento (ID_Departamento);
+ALTER TABLE paciente ADD FOREIGN KEY (ID_Departamento) REFERENCES departamento (ID_Departamento);
+ALTER TABLE suplemento ADD FOREIGN KEY (ID_Departamento) REFERENCES departamento (ID_Departamento);
+ALTER TABLE historial_medico ADD FOREIGN KEY (ID_Paciente) REFERENCES paciente (ID_Paciente);
+ALTER TABLE telefono_paciente ADD FOREIGN KEY (ID_Paciente) REFERENCES paciente (ID_Paciente);
 
+ALTER TABLE preinscripcion ADD FOREIGN KEY (ID_Paciente) REFERENCES paciente (ID_Paciente);
+ALTER TABLE preinscripcion ADD FOREIGN KEY (ID_Doctor) REFERENCES doctor (ID_Doctor);
+ALTER TABLE preinscripcion ADD FOREIGN KEY (ID_Medicamento) REFERENCES medicamento (ID_Medicamento);
 
+ALTER TABLE consulta ADD FOREIGN KEY (ID_Paciente) REFERENCES paciente (ID_Paciente);
+ALTER TABLE consulta ADD FOREIGN KEY (ID_Doctor) REFERENCES doctor (ID_Doctor);
+
+ALTER TABLE cita ADD FOREIGN KEY (ID_Paciente) REFERENCES paciente (ID_Paciente);
+ALTER TABLE cita ADD FOREIGN KEY (ID_Doctor) REFERENCES doctor (ID_Doctor);
+
+ALTER TABLE receta ADD FOREIGN KEY (ID_Consulta) REFERENCES consulta (ID_Consulta);
+ALTER TABLE receta ADD FOREIGN KEY (ID_Medicamento) REFERENCES medicamento (ID_Medicamento);
+
+ALTER TABLE medicamento ADD FOREIGN KEY (ID_Clase_medicamento) REFERENCES clase_medicamento (ID_Clase_medicamento);
+
+ALTER TABLE tiene ADD FOREIGN KEY (ID_Horarios) REFERENCES horario (ID_Horario);
+ALTER TABLE tiene ADD FOREIGN KEY (ID_Doctor) REFERENCES doctor (ID_Doctor);
+
+ALTER TABLE pedido ADD FOREIGN KEY (ID_Proveedor) REFERENCES proveedor (ID_Proveedor);
+ALTER TABLE pedido ADD FOREIGN KEY (ID_Medicamento) REFERENCES medicamento (ID_Medicamento);
+
+ALTER TABLE usuario ADD FOREIGN KEY (ID_Rol) REFERENCES rol(ID_Rol);
 
