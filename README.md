@@ -2,13 +2,6 @@
 
 Proyecto del Curso: Base de Datos I, en el cual se crea una página web y su base de datos.
 
-## Integrantes:
-
-- **Baca Flores Gabriel Alejandro**
-- **Briceño Quiroz Anthony Angel**
-- **Patiño Delgado Alvaro Alejandro**
-- **Perez Flores Alyson Gisely**
-
 ## Descripción del Proyecto
 
 ### Farmacia del Hospital General de Arequipa
